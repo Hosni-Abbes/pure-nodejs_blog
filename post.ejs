@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <title>Post - <%= post.title.substring(0, 50) %></title>
+    </head>
+    <body>
+        <header class="header">
+            <nav>
+                <div class="logo">
+                    <a href="/">Blog</a>
+                </div>
+                <div class="nav-menu">
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Dashboard</a>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            <div class="post-detail">
+                <div class="post-detail-content">
+                    <div class="post-detail-img">
+                        <img src="/uploads/<%= post.image %>" alt="Post image">
+                    </div>
+                    <div class="post-detail-detail">
+                        <h3 class="post-detail-title"> <%= post.title %> </h3>
+                        <p class="post-detail-desc"> <%= post.description %> </p>
+
+                        <% if(comments.length > 0){ %>
+                            <div class="post-detail-comments">
+                                <% comments.forEach(item => { %>
+                                    <div class="comment">
+                                        
+                                        <i class="fa-solid fa-comment"></i>
+                                        <small> 
+                                        <%
+                                            switch (item.created_at.getMonth() ) {
+                                                case 0:
+                                                %>January<%
+                                                break
+                                                case 1:
+                                                %>February<%
+                                                break
+                                                case 2:
+                                                %>March<%
+                                                break
+                                                case 3:
+                                                %>April<%
+                                                break
+                                                case 4:
+                                                %>May<%
+                                                break
+                                                case 5:
+                                                %>June<%
+                                                break
+                                                case 6:
+                                                %>July<%
+                                                break
+                                                case 7:
+                                                %>August<%
+                                                break
+                                                case 8:
+                                                %>September<%
+                                                break
+                                                case 9:
+                                                %>October<%
+                                                break
+                                                case 10:
+                                                %>November<%
+                                                break
+                                                default:
+                                                %>December<%
+                                            }
+                                        %>
+                                            <%= item.created_at.getDay() + 1 %>, <%= item.created_at.getFullYear() %>
+                                            at <%= item.created_at.getHours() %>:<%= item.created_at.getMinutes() < 10 ? '0' : '' %><%= item.created_at.getMinutes() %> </small>
+                                        <p><%= item.comment %></p>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        <% } %>
+
+                        <div class="post-detail-comment">
+                            <form action="/comment/post?id=<%= post.id %>" class="comment" method="POST">
+                                <textarea name="comment" rows="10" placeholder="Comment"></textarea>
+                                <input type="submit" value="Comment" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-detail-side">
+                    side
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>

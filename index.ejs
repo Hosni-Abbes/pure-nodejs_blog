@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/style.css">
+        <title>Home</title>
+    </head>
+    <body>
+        <header class="header">
+            <nav>
+                <div class="logo">
+                    <a href="/">Blog</a>
+                </div>
+                <div class="nav-menu">
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Dashboard</a>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            <div id="main">
+                <div class="posts">
+                    <% data.forEach(item => { %>
+                        <div class="post">
+                            <div class="post-content">
+                                <div class="post-image">
+                                    <img class="" src="/uploads/<%= item.image %>" alt="Post image">
+                                </div>
+                                <div class="post-desc">
+                                    <h3 class="post-title"> <%= item.title %> </h3>
+                                    <p class="post-description">
+                                        <% if(item.description.length > 250){ %>
+                                            <%= item.description.substring(0, 250) %> ...
+                                        <% }else{ %>
+                                            <%= item.description %>
+                                        <% } %>
+                                    </p>
+                                    <a class="read-more" href="/post/<%= item.id %>">More...</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+                
+            </div>
+        </div>
+        
+    </body>
+</html>

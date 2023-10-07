@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/style.css">
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <header class="header">
+            <nav>
+                <div class="logo">
+                    <a href="/">Blog</a>
+                </div>
+                <div class="nav-menu">
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Dashboard</a>
+                </div>
+            </nav>
+        </header>
+        
+        <div class="container">
+            <div id="main">
+                <div class="side">
+                    <a class="dash-controls" href="/dashboard?control=create">Create Post</a>
+                    <a class="dash-controls" href="/dashboard?control=manage-posts">Manage Posts</a>
+                    <a class="dash-controls" href="/dashboard?control=settings">Settings</a>
+                </div>
+                <div class="dashboard">
+                    <% if(control === 'create' || !control){ %>
+                        <h4 class="form-heading">Create Post</h4>
+                        <form action="/create-post" method="POST" enctype="multipart/form-data">
+                            <input type="text" name="title" placeholder="title" />
+                            <textarea name="desc" id="" cols="30" rows="5"></textarea>
+                            <input type="file" name="image" accept="image/*" />
+                            <input type="submit" value="Create" />
+                        </form>
+                    <% }else if(control === 'update'){ %>
+                            <h4 class="form-heading">Update Post</h4>
+                            <form action="/update-post?id=<%= data[0].id %>" method="POST" enctype="multipart/form-data">
+                                <input type="text" name="title" placeholder="title" value="<%= data[0].title %>" />
+                                <textarea name="desc" id="" cols="30" rows="5"><%= data[0].description %></textarea>
+                                <label class="dash-image-label" for="file">
+                                    Change image 
+                                    <img class="dash-edit-image" src="/uploads/<%= data[0].image %>" alt="Post image">
+                                </label>
+                                <input type="file" hidden id="file" name="image" accept="image/*" value="<%= data[0].image %>"/>
+                                <input type="hidden" name="imagename" value="<%= data[0].image %>">
+                                <input type="submit" value="Update" />
+                            </form>
+                    <% }else if(control === 'manage-posts'){ %>
+                        <h4 class="form-heading">Manage Posts</h4>
+                        <div class="dashboard-posts">
+                            <% data.forEach(item => { %>
+                                <div class="dashboard-post">
+                                    <span> <%= item.title %> </span>
+                                    <p> <%= item.description.substring(0, 100) %> ...</p>
+                                    <a href="/get-update-post?id=<%= item.id %>">Edit</a>
+                                    <a href="/delete-post?id=<%= item.id %>">Delete</a>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% }else if(control === 'settings'){ %>
+                        <p>Settings</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <script src="/main.js"></script>
+    </body>
+</html>
